@@ -7,23 +7,28 @@
 			<StaffList :staff="staffWithInitials" :staff-selected="staffSelected" />
 		</v-col>
 		<v-col>
-
+			<StaffForm v-if="selectedStaff" :staff="selectedStaff" :save-staff="saveStaff"
+					   :remove-staff="removeStaff" />
 		</v-col>
 	</v-row>
 </template>
 
 <script>
 import StaffList from "../components/StaffList"
+import StaffForm from "../components/StaffForm"
+
+import { nanoid } from "nanoid"
+import moment from "moment"
 import { map } from "lodash"
 
 export default {
 	name: "Staff",
 
 	components: {
-		StaffList
+		StaffList, StaffForm
 	}, data() {
 		return {
-			staff: [], selectedStaff: null
+			staff: JSON.parse(localStorage.getItem("empStore")) || [], selectedStaff: null
 		}
 	}, computed: {
 		staffWithInitials: function() {
@@ -34,10 +39,41 @@ export default {
 		}
 	}, methods: {
 		staffSelected(staff) {
-			this.selectedStaff = staff
+			const selectedStaff = JSON.parse(localStorage.getItem("empStore")).find(item => item.id === staff.id)
+			this.selectedStaff = { ...selectedStaff, pass_dt: moment(selectedStaff.pass_dt).format("YYYY-MM-DD") }
 		}, createStaff() {
 			this.selectedStaff = {
-				fio: "", pass_ser: "", pass_no: "", pass_dt: ""
+				id: null, fio: "", pass_ser: "", pass_no: "", pass_dt: ""
+			}
+		}, saveStaff(staff) {
+			const empStore = JSON.parse(localStorage.getItem("empStore"))
+			let newEmpStore = empStore
+			if (empStore) {
+				const indexOfCurrentStaffInStorage = empStore.findIndex(item => item.id === staff.id)
+				if (indexOfCurrentStaffInStorage >= 0) {
+					empStore[indexOfCurrentStaffInStorage] = { ...staff }
+					newEmpStore = [ ...empStore ]
+				} else {
+					newEmpStore = [ ...empStore, {
+						...staff, id: nanoid()
+					}]
+				}
+			} else {
+				newEmpStore = [{
+					...staff, id: nanoid()
+				}]
+			}
+			localStorage.setItem("empStore", JSON.stringify(newEmpStore))
+
+			this.staff = newEmpStore
+		}, removeStaff(staffId) {
+			const empStore = JSON.parse(localStorage.getItem("empStore"))
+			if (empStore) {
+				const newEmpStore = empStore.filter(item => item.id !== staffId)
+				localStorage.setItem("empStore", JSON.stringify(newEmpStore))
+
+				this.staff = newEmpStore
+				this.selectedStaff = null
 			}
 		}
 	}
