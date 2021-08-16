@@ -81,12 +81,10 @@ export default {
 			this.form = { ...form }
 		}
 	}, watch: {
-		staff: function(val, oldVal) {
-			if (val.id !== oldVal.id) {
-				this.setForm({
-					id: val.id, fio: val.fio, pass_ser: val.pass_ser, pass_no: val.pass_no, pass_dt: val.pass_dt
-				})
-			}
+		staff: function(val) {
+			this.setForm({
+				id: val.id, fio: val.fio, pass_ser: val.pass_ser, pass_no: val.pass_no, pass_dt: val.pass_dt
+			})
 		}
 
 	}

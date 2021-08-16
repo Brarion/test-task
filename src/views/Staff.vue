@@ -66,6 +66,7 @@ export default {
 			localStorage.setItem("empStore", JSON.stringify(newEmpStore))
 
 			this.staff = newEmpStore
+			this.selectedStaff = { ...staff, pass_dt: moment(staff.pass_dt).format("YYYY-MM-DD") }
 		}, removeStaff(staffId) {
 			const empStore = JSON.parse(localStorage.getItem("empStore"))
 			if (empStore) {
