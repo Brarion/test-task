@@ -14,6 +14,7 @@
 
 <script>
 import StaffList from "../components/StaffList"
+import { map } from "lodash"
 
 export default {
 	name: "Staff",
@@ -26,10 +27,10 @@ export default {
 		}
 	}, computed: {
 		staffWithInitials: function() {
-			return this.staff ? this.staff.map(s => ({
+			return map(this.staff, s => ({
 				id: s.id,
 				fio: s.fio.split(" ").map((item, index) => index === 0 ? item : `${item[0].toUpperCase()}.`).join(" ")
-			})) : []
+			}))
 		}
 	}, methods: {
 		staffSelected(staff) {
