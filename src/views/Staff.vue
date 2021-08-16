@@ -33,8 +33,10 @@ export default {
 	}, computed: {
 		staffWithInitials: function() {
 			return map(this.staff, s => ({
-				id: s.id,
-				fio: s.fio.split(" ").map((item, index) => index === 0 ? item : `${item[0].toUpperCase()}.`).join(" ")
+				id: s.id, fio: s.fio
+								.split(" ")
+								.map((item, index) => index === 0 ? `${item[0].toUpperCase()}${item.slice(1)}` : `${item[0].toUpperCase()}.`)
+								.join(" ")
 			}))
 		}
 	}, methods: {
@@ -52,9 +54,9 @@ export default {
 				const indexOfCurrentStaffInStorage = empStore.findIndex(item => item.id === staff.id)
 				if (indexOfCurrentStaffInStorage >= 0) {
 					empStore[indexOfCurrentStaffInStorage] = { ...staff }
-					newEmpStore = [ ...empStore ]
+					newEmpStore = [...empStore]
 				} else {
-					newEmpStore = [ ...empStore, {
+					newEmpStore = [...empStore, {
 						...staff, id: nanoid()
 					}]
 				}
