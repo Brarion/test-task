@@ -13,6 +13,7 @@ module.exports = {
 		semi: ["error", "never"],
 		quotes: ["error", "double"],
 		"no-multi-spaces": "error",
+		"no-mixed-spaces-and-tabs": 0,
 		"no-multiple-empty-lines": ["error", { max: 1 }],
 		"function-paren-newline": ["error", { minItems: 3 }],
 		"eol-last": ["error", "always"],
