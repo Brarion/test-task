@@ -1,5 +1,7 @@
 # test-task
 
+[Netlify](https://test-task-staff.netlify.app/)
+
 ## Project setup
 ```
 npm install
