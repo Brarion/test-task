@@ -1,18 +1,24 @@
 <template>
-	<v-data-table :headers="headers" :items="staff" hide-default-footer @click:row="staffSelected">
-	</v-data-table>
+	<v-data-table :headers="headers" :items="staff" hide-default-footer @click:row="staffSelected"> </v-data-table>
 </template>
 
 <script>
 export default {
-	name: "StaffList", props: {
+	name: "StaffList",
+	props: {
 		staff: Array,
 		staffSelected: Function
-	}, data() {
+	},
+	data() {
 		return {
-			headers: [{
-				text: "ФИО сотрудника", align: "center", sortable: false, value: "fio"
-			}]
+			headers: [
+				{
+					text: "ФИО сотрудника",
+					align: "center",
+					sortable: false,
+					value: "fio"
+				}
+			]
 		}
 	}
 }
